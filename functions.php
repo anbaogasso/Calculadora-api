@@ -13,16 +13,29 @@ function getDevices() {
     return $sentence->fetchAll();
 }
 
-function deleteDevice($id) {
+function getClientDevice() {
     $bd = getConnection();
-    $sentence = $bd->prepare("DELETE FROM devices WHERE id = ?");
-    return $sentence->execute([$id]);
+    $sentence = $bd->query("SELECT id, model, marca, consum, tipoconsum FROM newClient");
+    return $sentence->fetchAll();
+}
+
+function getIdClientDevice($model, $marca) {
+    $bd = getConnection();
+    $sentence = $bd->prepare("SELECT id FROM newClient WHERE model = ? AND marca = ?");
+    $sentence->execute(array($model, $marca));
+    return $sentence->fetchObject();
 }
 
 function saveDevice($device) {
     $bd = getConnection();
-    $sentence = $bd->prepare("INSERT INTO devices(model, marca, pes) VALUES (?, ?, ?)");
-    return $sentence->execute([$device->model, $device->marca, $device->pes]);
+    $sentence = $bd->prepare("INSERT INTO newClient(model, marca, consum, tipoconsum) VALUES (?, ?, ?, ?)");
+    return $sentence->execute([$device->model, $device->marca, $device->consum, $device->tipoconsum]);
+}
+
+function deleteDevice($id) {
+    $bd = getConnection();
+    $sentence = $bd->prepare("DELETE FROM newClient WHERE id = ?");
+    return $sentence->execute([$id]);
 }
 
 function getEnvironmentVariable($key)
