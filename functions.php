@@ -26,6 +26,13 @@ function getIdClientDevice($model, $marca) {
     return $sentence->fetchObject();
 }
 
+function getAllClientDevice($id) {
+    $bd = getConnection();
+    $sentence = $bd->prepare("SELECT * FROM newClient WHERE id = ?");
+    $sentence->execute([$id]);
+    return $sentence->fetchObject();
+}
+
 function saveDevice($device) {
     $bd = getConnection();
     $sentence = $bd->prepare("INSERT INTO newClient(model, marca, consum, tipoconsum) VALUES (?, ?, ?, ?)");
