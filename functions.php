@@ -1,48 +1,47 @@
 <?php
 
-function getDevice($id) {
-    $bd = getConnection();
-    $sentence = $bd->prepare("SELECT * FROM devices WHERE id = ?");
-    $sentence->execute([$id]);
-    return $sentence->fetchObject();
-}
-
-function getDevices() {
-    $bd = getConnection();
-    $sentence = $bd->query("SELECT id, model, marca, pes FROM devices");
-    return $sentence->fetchAll();
-}
+//Tabla clientDevice
 
 function getClientDevice() {
     $bd = getConnection();
-    $sentence = $bd->query("SELECT id, model, marca, consum, tipoconsum FROM newClient");
+    $sentence = $bd->query("SELECT id, model, brand, type, weight, units, hours, consumtype FROM clientDevice");
     return $sentence->fetchAll();
 }
 
-function getIdClientDevice($model, $marca) {
+function getIdClientDevice($model, $brand) {
     $bd = getConnection();
-    $sentence = $bd->prepare("SELECT id FROM newClient WHERE model = ? AND marca = ?");
-    $sentence->execute(array($model, $marca));
-    return $sentence->fetchObject();
-}
-
-function getAllClientDevice($id) {
-    $bd = getConnection();
-    $sentence = $bd->prepare("SELECT * FROM newClient WHERE id = ?");
-    $sentence->execute([$id]);
+    $sentence = $bd->prepare("SELECT * FROM clientDevice WHERE model = ? AND brand = ?");
+    $sentence->execute(array($model, $brand));
     return $sentence->fetchObject();
 }
 
 function saveDevice($device) {
     $bd = getConnection();
-    $sentence = $bd->prepare("INSERT INTO newClient(model, marca, consum, tipoconsum) VALUES (?, ?, ?, ?)");
-    return $sentence->execute([$device->model, $device->marca, $device->consum, $device->tipoconsum]);
+    $sentence = $bd->prepare("INSERT INTO clientDevice(model, brand, type, weight, units, hours, consumtype) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    return $sentence->execute([$device->model, $device->brand, $device->type, $device->weight, $device->units, $device->hours, $device->consumtype]);
 }
 
 function deleteDevice($id) {
     $bd = getConnection();
-    $sentence = $bd->prepare("DELETE FROM newClient WHERE id = ?");
+    $sentence = $bd->prepare("DELETE FROM clientDevice WHERE id = ?");
     return $sentence->execute([$id]);
+}
+
+//Tabla typeDevices
+
+function getTypeDevices($type) {
+    $bd = getConnection();
+    $sentence = $bd->prepare("SELECT type, footprint, trees, cars, water FROM typeDevices WHERE type = ?");
+    $sentence->execute([$type]);
+    return $sentence->fetchObject();
+}
+
+//Tabla contactMe
+
+function newMessage($message) {
+    $bd = getConnection();
+    $sentence = $bd->prepare("INSERT INTO contactMe(name, email, subject, text) VALUES (?, ?, ?, ?)");
+    return $sentence->execute([$message->name, $message->email, $message->subject, $message->text]);
 }
 
 function getEnvironmentVariable($key)
