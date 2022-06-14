@@ -4,7 +4,7 @@
 
 function getClientDevice() {
     $bd = getConnection();
-    $sentence = $bd->query("SELECT id, model, brand, type, weight, units, hours, consumtype FROM clientDevice");
+    $sentence = $bd->query("SELECT id, model, brand, type, weight, units, hours, distance FROM clientDevice");
     return $sentence->fetchAll();
 }
 
@@ -17,8 +17,8 @@ function getIdClientDevice($model, $brand) {
 
 function saveDevice($device) {
     $bd = getConnection();
-    $sentence = $bd->prepare("INSERT INTO clientDevice(model, brand, type, weight, units, hours, consumtype) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    return $sentence->execute([$device->model, $device->brand, $device->type, $device->weight, $device->units, $device->hours, $device->consumtype]);
+    $sentence = $bd->prepare("INSERT INTO clientDevice(model, brand, type, weight, units, hours, distance) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    return $sentence->execute([$device->model, $device->brand, $device->type, $device->weight, $device->units, $device->hours, $device->distance]);
 }
 
 function deleteDevice($id) {
@@ -31,9 +31,15 @@ function deleteDevice($id) {
 
 function getTypeDevices($type) {
     $bd = getConnection();
-    $sentence = $bd->prepare("SELECT type, footprint, trees, cars, water FROM typeDevices WHERE type = ?");
+    $sentence = $bd->prepare("SELECT type, manuconst, transportconst, useconst, trees, cars, water FROM typeDevices WHERE type = ?");
     $sentence->execute([$type]);
     return $sentence->fetchObject();
+}
+
+function getAllTypeDevices() {
+    $bd = getConnection();
+    $sentence = $bd->query("SELECT * FROM typeDevices");
+    return $sentence->fetchAll();
 }
 
 //Tabla contactMe

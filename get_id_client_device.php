@@ -1,5 +1,5 @@
 <?php
-include_once "cors.php";
+//include_once "cors.php";
 include_once "functions.php";
 header('Content-Type: application/json');
 
