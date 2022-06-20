@@ -1,5 +1,5 @@
 <?php
-include_once "cors.php";
+
 header('Content-Type: application/json');
 if (!isset($_GET["type"])) {
     echo json_encode(null);

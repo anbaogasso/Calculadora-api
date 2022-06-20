@@ -31,7 +31,7 @@ function deleteDevice($id) {
 
 function getTypeDevices($type) {
     $bd = getConnection();
-    $sentence = $bd->prepare("SELECT type, manuconst, transportconst, useconst, trees, cars, water FROM typeDevices WHERE type = ?");
+    $sentence = $bd->prepare("SELECT type, manuconst, transportconst, useconst, trees, cars, water, work, euro FROM typeDevices WHERE type = ?");
     $sentence->execute([$type]);
     return $sentence->fetchObject();
 }
@@ -74,7 +74,7 @@ function getConnection() {
     $user = getEnvironmentVariable("MYSQL_USER");
     $dbName = getEnvironmentVariable("MYSQL_DATABASE_NAME");
     $server = getEnvironmentVariable("MYSQL_HOST");
-    $database = new PDO ('mysql:host=' . $server .';dbname=' . $dbName, $user, $password);
+    $database = new PDO ('mysql:host=' . $server .';dbname=' . $dbName, $user, $password, array(PDO::ATTR_PERSISTENT => true));
     $database->query("set names utf8;");
     $database->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
